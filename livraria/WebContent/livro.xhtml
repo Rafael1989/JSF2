@@ -56,6 +56,8 @@
 					<h:outputText value="#{autor.nome}"/>
 				</h:column>
 			</h:dataTable>
+			<!-- <h:commandLink action="autor?faces-redirect=true" value="Cadastrar novo autor" immediate="true"/> -->
+			<h:commandLink action="#{livroBean.autorForm}" value="Cadastrar novo autor" immediate="true"/>
 		</fieldset>
 		<h:commandButton value="Gravar" action="#{livroBean.gravar}">
 			<f:ajax execute="@form" render="@form :tabelaLivros"/>
