@@ -86,6 +86,14 @@ public class LivroBean {
 		this.livro = livro;
 	}
 	
+	public void carregaPeloId() {
+		Integer id = this.livro.getId();
+		this.livro = new DAO<Livro>(Livro.class).buscaPorId(id);
+		if(this.livro == null) {
+			this.livro = new Livro();
+		}
+	}
+	
 	public void comecaComDigitoUm(FacesContext facesContext,UIComponent uiComponent, Object valor) {
 		if(!valor.toString().startsWith("1")) {
 			throw new ValidatorException(new FacesMessage("O ISBN só pode começar com 1, vc (Faustão: -EROUUUU"));
