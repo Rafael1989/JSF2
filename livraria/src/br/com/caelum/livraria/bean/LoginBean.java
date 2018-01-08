@@ -1,5 +1,6 @@
 package br.com.caelum.livraria.bean;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -19,11 +20,20 @@ public class LoginBean {
 	
 	public String efetuaLogin() {
 		boolean existe = new UsuarioDao().existe(this.usuario);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
 		if(existe) {
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioLogado", usuario);
+			facesContext.getExternalContext().getSessionMap().put("usuarioLogado", usuario);
 			return "livro?faces-redirect=true";
 		}
-		return null;
+		facesContext.getExternalContext().getFlash().setKeepMessages(true);
+		facesContext.addMessage(null, new FacesMessage("Dados inválidos, favor comer omega 3 para melhorar a memória..."));
+		return "login?faces-redirect=true";
+	}
+	
+	public String deslogar() {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getExternalContext().getSessionMap().remove("usuarioLogado");
+		return "login?faces-redirect=true";
 	}
 
 }
