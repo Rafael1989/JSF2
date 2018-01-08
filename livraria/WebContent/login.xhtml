@@ -7,7 +7,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="_template.xhtml">
-		<ui:define name="titulo">Login</ui:define>
+		<ui:define name="titulo">
+			<p:outputPanel>Login</p:outputPanel>
+		</ui:define>
 		<ui:define name="conteudo">
 			<h:form id="login">
 				<p:messages globalOnly="true"/>
