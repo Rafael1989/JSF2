@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class DAO<T> {
 
@@ -39,6 +40,20 @@ public class DAO<T> {
 
 		em.getTransaction().commit();
 		em.close();
+	}
+	
+	public List<T> listaTodosPaginada(int firstResult, int maxResults, String coluna, String valor) {
+	    EntityManager em = new JPAUtil().getEntityManager();
+	    CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(classe);
+	    Root<T> root = query.from(classe);
+
+	    if(valor != null)
+	        query = query.where(em.getCriteriaBuilder().like(root.<String>get(coluna), valor + "%"));
+
+	    List<T> lista = em.createQuery(query).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+
+	    em.close();
+	    return lista;
 	}
 
 	public void atualiza(T t) {

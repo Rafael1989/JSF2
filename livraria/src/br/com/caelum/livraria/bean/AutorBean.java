@@ -1,5 +1,6 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -11,8 +12,10 @@ import br.com.caelum.livraria.util.RedirectView;
 
 @ManagedBean
 @ViewScoped
-public class AutorBean {
+public class AutorBean implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Autor autor = new Autor();
 
 	public Autor getAutor() {
