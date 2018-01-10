@@ -25,6 +25,12 @@
 						<f:ajax event="blur" render="messages"/>
 					</p:inputText>
 					
+					<p:outputLabel value="Gênero" for="genero"/>
+					<p:selectOneMenu value="#{livroBean.livro.genero}" id="genero">
+						<f:selectItem itemLabel="Selecione..." itemValue="#{null}"/>
+						<f:selectItems value="#{livroBean.generos}"/>
+					</p:selectOneMenu>
+					
 					<p:outputLabel value="ISBN:" for="isbn" />
 					<p:inputMask id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.comecaComDigitoUm}" mask="999-9-99-999999-9"/>
 	
@@ -34,12 +40,6 @@
 						<f:validateDoubleRange minimum="1" maximum="1000"/>
 					</p:inputText>
 					
-					<p:outputLabel value="Gênero:" for="genero" />                            
-					<p:selectOneMenu value="#{livroBean.livro.genero}" id="genero">
-					    <f:selectItem itemLabel="Selecione..." itemValue="#{null}" />
-					    <f:selectItems value="#{livroBean.generos}" /> 
-					</p:selectOneMenu>
-	
 					<p:outputLabel value="Data de Lançamento:" for="dataLancamento" />
 					<p:calendar id="dataLancamento" mask="true" pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" value="#{livroBean.livro.dataLancamento.time}"/>
 	
@@ -62,24 +62,24 @@
 			<p:commandButton value="Gravar" action="#{livroBean.gravar}" process="@form" update="@form :tabelaLivrosForm:tabelaLivros"/>
 		</h:form>
 		<h:form id="tabelaLivrosForm">
-			<p:dataTable id="tabelaLivros" value="#{livroBean.livros}" var="livro" paginator="true" rows="5">
+			<p:dataTable id="tabelaLivros" widgetVar="tabelaLivros" value="#{livroBean.livros}" var="livro" paginator="true" rows="5">
 				<f:facet name="header">Livros</f:facet>
 				<p:column headerText="Título" sortBy="#{livro.titulo}" filterBy="#{livro.titulo}" filterMatchMode="startsWith">
 					<h:outputText value="#{livro.titulo}"/>
 				</p:column>
 				<p:column headerText="Gênero" sortBy="#{livro.genero}" filterBy="#{livro.genero}" filterMatchMode="startsWith">
-				    <f:facet name="filter">
-				        <p:selectOneMenu onchange="PF('tabelaLivros').filter()">
-				            <f:selectItem itemLabel="Selecione..." itemValue="#{null}" noSelectionOption="true" />
-				            <f:selectItems value="#{livroBean.generos}" />
-				         </p:selectOneMenu>
-				    </f:facet>
-				    <h:outputText value="#{livro.genero}" />
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('tabelaLivros').filter()">
+							<f:selectItem itemLabel="Selecione..." itemValue="#{null}" noSelectionOption="true"/>
+							<f:selectItems value="#{livroBean.generos}"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{livro.genero}"/>
 				</p:column>
 				<p:column headerText="ISBN" sortBy="#{livro.isbn}" filterBy="#{livro.isbn}" filterMatchMode="contains">
 					<h:outputText value="#{livro.isbn}"/>
 				</p:column>
-				<p:column headerText="Preço" sortBy="#{livro.preco}">
+				<p:column headerText="Preço" sortBy="#{livro.preco}" filterBy="#{livro.preco}" filterFunction="#{livroBean.precoEhMenor}">
 					<h:outputText value="#{livro.preco}">
 						<f:convertNumber type="currency" pattern="R$ #0.00" currencySymbol="R$" locale="pt_BR"/>
 					</h:outputText>
@@ -90,7 +90,7 @@
 					</h:outputText>
 				</p:column>
 				<p:column headerText="Remover">
-					<p:commandButton icon="fa fa-fw fa-remove" update=":tabelaLivrosForm:tabelaLivros" process="@this" action="#{livroBean.remove(livro)}"/>
+					<p:commandButton icon="fa fa-fw fa-remove" update=":tabelaLivrosForm:tabelaLivros" process="@this tabelaLivros" action="#{livroBean.remove(livro)}"/>
 				</p:column>
 				<p:column headerText="Alterar">
 					<p:commandButton icon="fa fa-fw fa-edit" update=":livroForm" action="#{livroBean.carrega(livro)}"/>
