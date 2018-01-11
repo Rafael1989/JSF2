@@ -13,6 +13,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.caelum.livraria.annotation.Transaction;
 import br.com.caelum.livraria.dao.AutorDao;
 import br.com.caelum.livraria.dao.LivroDao;
 import br.com.caelum.livraria.modelo.Autor;
@@ -83,6 +84,7 @@ public class LivroBean implements Serializable{
 		return new RedirectView("autor");
 	}
 
+	@Transaction
 	public void gravar() {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
@@ -102,6 +104,7 @@ public class LivroBean implements Serializable{
 		this.livro = new Livro();
 	}
 	
+	@Transaction
 	public void remove(Livro livro) {
 		this.livroDao.remove(livro);
 		this.livros = this.livroDao.listaTodos();

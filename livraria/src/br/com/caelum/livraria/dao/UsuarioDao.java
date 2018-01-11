@@ -4,10 +4,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import br.com.caelum.livraria.annotation.Log;
 import br.com.caelum.livraria.modelo.Usuario;
 
 public class UsuarioDao {
 	
+	@Log
 	public boolean existe(Usuario usuario) {
 		EntityManager em = new JPAUtil().getEntityManager();
 		TypedQuery<Usuario> query = em.createQuery("select u from Usuario u where u.email = :email and u.senha = :senha",Usuario.class);
