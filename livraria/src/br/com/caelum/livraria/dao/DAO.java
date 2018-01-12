@@ -65,7 +65,6 @@ public class DAO<T> implements Serializable{
 
 	public T buscaPorId(Integer id) {
 		T instancia = em.find(classe, id);
-		em.close();
 		return instancia;
 	}
 
